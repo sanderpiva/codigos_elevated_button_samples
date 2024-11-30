@@ -1,0 +1,86 @@
+
+//eb_example2
+
+//main.dart
+
+import 'package:flutter/material.dart';
+import 'produto_card.dart'; // Importa a classe ProdutoCard
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Minha Loja',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Produtos'),
+        ),
+        body: ListView(
+
+          children: [
+            ProdutoCard(nomeProduto: 'Camiseta', preco: 29.99),
+            ProdutoCard(nomeProduto: 'Calça Jeans', preco: 89.90),
+            // Adicione mais produtos aqui...
+          ],
+        ),
+      ),
+    );
+  }
+}
+//
+
+//produto_card.dart
+
+import 'package:flutter/material.dart';
+
+class ProdutoCard extends StatelessWidget {
+  final String nomeProduto;
+  final double preco;
+
+  const ProdutoCard({Key? key, required this.nomeProduto, required this.preco})
+      : super(key: key);
+
+  void _adicionarAoCarrinho(BuildContext context) {
+    print('Produto: $nomeProduto R\$ $preco adicionado ao carrinho!');
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Produto: $nomeProduto R\$ $preco, adicionado ao carrinho!',
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        title: Text(nomeProduto),
+        subtitle: Text('R\$ ${preco.toStringAsFixed(2)}'),
+        trailing: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.green,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          onPressed: () => _adicionarAoCarrinho(context), // Passando o contexto aqui
+          child: Text('Comprar'),
+        ),
+      ),
+    );
+  }
+}
+
+
+//
